@@ -1,0 +1,31 @@
+<div>
+    <h1>Welcome to the Home Page</h1>
+    <p>This is the main content of the home page.</p>   
+    <div>
+        <button onclick="window.location.href='/logout'">Logout</button>
+        //Load data from API
+        <button onclick="loadData()">Load Data</button>
+        <div id="dataContainer"></div>
+        <script>
+            function loadData() {
+               //make fetch call to /getUserData
+               fetch('/getUserData', {
+                   method: 'GET',
+                   headers: {
+                       'Content-Type': 'application/json'
+                   }
+               }).then(function (response) {
+                   return response.json();
+               }).then(function (data) {
+                   console.log('Data fetched:', data);
+                   const dataContainer = document.getElementById('dataContainer');
+                   dataContainer.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+               }).catch(function (error) {
+                   console.error('Error fetching data:', error);
+               });
+                
+
+            }
+        </script>
+    </div>
+</div>
