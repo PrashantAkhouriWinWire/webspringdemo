@@ -1,10 +1,21 @@
+<html>
+<head>
+    <title>Home Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+
 <div>
-    <h1>Welcome to the Home Page</h1>
-    <p>This is the main content of the home page.</p>   
-    <div>
-        <button onclick="window.location.href='/logout'">Logout</button>
-        //Load data from API
-        <button onclick="loadData()">Load Data</button>
+    <h1>Home Page</h1>
+    <p><h2>Welcome, <span th:text="${username}"></span></h2></p>   
+    <div     class="login-container">
+        <div>Create NavBar here<span><button onclick="window.location.href='/logout'">Logout</button></span></div>
+        <div>
+           <button onclick="loadData()">Load Data</button>
+           </div>
         <div id="dataContainer"></div>
         <script>
             function loadData() {
@@ -19,7 +30,16 @@
                }).then(function (data) {
                    console.log('Data fetched:', data);
                    const dataContainer = document.getElementById('dataContainer');
-                   dataContainer.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                   //dataContainer.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                   //create a table to display data
+                   let tableHTML = '<table border="1"><tr><th>ID</th><th>Name</th><th>Email</th></tr>';
+                   data.forEach(user => {
+                       tableHTML += `<tr><td>${user.id}</td><td>${user.name}</td><td>${user.email}</td></tr>`;
+                   });
+                   tableHTML += '</table>';
+                   dataContainer.innerHTML = tableHTML; 
+
                }).catch(function (error) {
                    console.error('Error fetching data:', error);
                });
@@ -29,3 +49,5 @@
         </script>
     </div>
 </div>
+    </body>
+</html>
